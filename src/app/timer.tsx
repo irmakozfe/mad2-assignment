@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   },
   header: {
     color: "#F0E7D5",
+    flex: 0.05,
     fontSize: 28,
     fontStyle: "italic",
     textAlign: "center",
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
   progressBar: {
     width: "80%",
     height: 10,
+    flex: 0.05,
     borderRadius: 10,
     marginVertical: 30,
   },
