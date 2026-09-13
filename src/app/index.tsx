@@ -1,16 +1,17 @@
+import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import {
   Animated,
   Dimensions,
-  Image,
   Platform,
-  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from "react-native";
+import { Button } from "react-native-paper";
+import MainCard from "../../components/MainCard";
+
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_WIDTH = SCREEN_WIDTH * 0.68;
 const CARD_SPACING = 10;
@@ -25,53 +26,65 @@ const IMAGES = {
 
 type CountryKey = keyof typeof IMAGES;
 
-type Module = {
+type CoffeeModule = {
   id: CountryKey;
   title: string;
   description: string;
+  brewSeconds: number;
 };
 
-const MODULES: Module[] = [
+const MODULES: CoffeeModule[] = [
   {
     id: "colombia",
     title: "Colombia",
     description:
       "Grown on volcanic slopes in the Andes at 1,200-2,000m. Washed process, medium roast. Notes of red apple, caramel and a clean, mild acidity.",
+    brewSeconds: 180,
   },
-
   {
     id: "brazil",
     title: "Brazil Santos",
     description:
       "Sourced from the Cerrado plateau's low-altitude farms. Natural (dry) processed, giving it a heavy body, low acidity and notes of roasted nuts and dark chocolate.",
+    brewSeconds: 240,
   },
   {
     id: "guatemala",
     title: "Guatemala",
     description:
       "Antigua Valley beans grown in mineral-rich volcanic soil at 1,500m+. Full-bodied with notes of cocoa, smoke and a subtle spice on the finish.",
+    brewSeconds: 210,
   },
   {
     id: "ethiopia",
     title: "Ethiopia",
     description:
       "Considered the birthplace of coffee, from the Yirgacheffe and Sidamo highlands. Heirloom varietals, light roast. Floral, citrusy, and often compared to fine wine.",
+    brewSeconds: 150,
   },
   {
     id: "kenya",
     title: "Kenya",
     description:
       "High-altitude beans (1,700m+) from the slopes near Mount Kenya. Double-fermented washed process yields a bright, wine-like acidity with blackcurrant and berry notes.",
+    brewSeconds: 200,
   },
 ];
 
 export default function Index() {
   const scrollX = useRef(new Animated.Value(0)).current;
-  const [email, setEmail] = useState("");
+  const router = useRouter();
+  const [selectedId, setSelectedId] = useState<CountryKey>("colombia");
+  const selectedCoffee = MODULES.find((m) => m.id === selectedId)!;
 
-  const handleSubscribe = () => {
-    console.log("submitted email:", email);
-    setEmail("");
+  const handleBrew = () => {
+    router.push({
+      pathname: "/timer",
+      params: {
+        title: selectedCoffee.title,
+        seconds: String(selectedCoffee.brewSeconds),
+      },
+    });
   };
 
   return (
@@ -88,9 +101,7 @@ export default function Index() {
         snapToInterval={CARD_WIDTH + CARD_SPACING}
         contentContainerStyle={styles.list}
         decelerationRate="fast"
-        ItemSeparatorComponent={() => (
-          <View style={{ width: CARD_SPACING }}></View>
-        )}
+        ItemSeparatorComponent={() => <View style={{ width: CARD_SPACING }} />}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
           { useNativeDriver: true },
@@ -111,37 +122,29 @@ export default function Index() {
 
           return (
             <Animated.View
-              style={[
-                styles.card,
-                { width: CARD_WIDTH, transform: [{ scale }] },
-              ]}
+              style={{ width: CARD_WIDTH, transform: [{ scale }] }}
             >
-              <Image
-                source={IMAGES[item.id]}
-                style={styles.cardImage}
-                resizeMode="contain"
+              <MainCard
+                image={IMAGES[item.id]}
+                title={item.title}
+                description={item.description}
+                selected={item.id === selectedId}
+                onPress={() => setSelectedId(item.id)}
               />
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.cardDescription}>{item.description}</Text>
             </Animated.View>
           );
         }}
       />
-      <Text style={styles.footer}>Freshly roasted, just for you! </Text>
-      <View style={styles.subscribeRow}>
-        <TextInput
-          style={styles.emailInput}
-          placeholder="example@email.com"
-          placeholderTextColor="#B6A79E"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <Pressable style={styles.subscribeButton} onPress={handleSubscribe}>
-          <Text style={styles.subscribeButtonText}>Contact Us</Text>
-        </Pressable>
-      </View>
+      <Text style={styles.footer}>Freshly roasted, just for you!</Text>
+      <Button
+        mode="contained"
+        onPress={handleBrew}
+        buttonColor="#B6CFE4"
+        textColor="#422D28"
+        style={styles.brewButton}
+      >
+        Brew {selectedCoffee.title}
+      </Button>
     </SafeAreaView>
   );
 }
@@ -171,43 +174,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: -10,
   },
-  listContent: {
-    paddingHorizontal: (SCREEN_WIDTH - CARD_WIDTH) / 2,
-  },
-  card: {
-    backgroundColor: "#B6CFE4",
-    borderRadius: 20,
-    padding: 18,
-    aspectRatio: 0.7,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    elevation: 6,
-  },
-  cardImage: {
-    width: 120,
-    height: 120,
-    marginBottom: 10,
-  },
-  cardTitle: {
-    color: "#422D28",
-    fontSize: 20,
-    fontFamily: Platform.select({ ios: "Helvetica", android: "sans-serif" }),
-    fontWeight: "600",
-    marginTop: 20,
-    marginBottom: 8,
-  },
-  cardDescription: {
-    color: "#422D28",
-    fontFamily: Platform.select({ ios: "Helvetica", android: "sans-serif" }),
-    fontStyle: "italic",
-    fontSize: 14,
-    lineHeight: 20,
-    marginTop: 8,
-  },
   list: {
     marginTop: 70,
     flexGrow: 0,
@@ -217,43 +183,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: "center",
     marginTop: "auto",
-    paddingBottom: 24,
     opacity: 0.7,
   },
-  smallfooter: {
-    color: "#F0E7D5",
-    fontSize: 10,
-    textAlign: "center",
-    marginTop: -12,
-    paddingBottom: 24,
-    opacity: 0.7,
-  },
-  subscribeRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
+  brewButton: {
+    marginTop: 16,
     marginBottom: 40,
-  },
-  emailInput: {
-    width: 160,
-    backgroundColor: "#F0E7D5",
-    borderRadius: 5,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    color: "#422D28",
-    fontSize: 13,
-    opacity: 0.95,
-  },
-  subscribeButton: {
-    backgroundColor: "#B6CFE4",
     borderRadius: 100,
-    paddingHorizontal: 15,
-    paddingVertical: 11,
-    justifyContent: "center",
-  },
-  subscribeButtonText: {
-    color: "#422D28",
-    fontWeight: "600",
-    fontSize: 14,
   },
 });
