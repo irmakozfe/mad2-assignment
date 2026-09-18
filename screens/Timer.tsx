@@ -56,13 +56,6 @@ export default function Timer() {
             {isRunning ? "Pause" : "Resume"}
           </Button>
         )}
-        <Button
-          mode="outlined"
-          textColor="#F0E7D5"
-          onPress={() => navigation.goBack()}
-        >
-          Back
-        </Button>
       </View>
     </SafeAreaView>
   );
@@ -78,11 +71,11 @@ const styles = StyleSheet.create({
   },
   header: {
     color: "#F0E7D5",
-    flex: 0.05,
     fontSize: 28,
     fontStyle: "italic",
     textAlign: "center",
-    marginBottom: 30,
+    marginBottom: 50,
+    marginTop: -80,
   },
   progressBar: {
     width: "80%",

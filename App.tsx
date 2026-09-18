@@ -19,7 +19,16 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Timer" component={Timer} />
+            <Stack.Screen
+              name="Timer"
+              component={Timer}
+              options={{
+                headerShown: true,
+                title: "Back to Home",
+                headerStyle: { backgroundColor: "#422D28" },
+                headerTintColor: "#F0E7D5",
+              }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
