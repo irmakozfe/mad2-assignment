@@ -1,0 +1,32 @@
+[
+  {
+    "id": "colombia",
+    "title": "Colombia",
+    "description": "Grown on volcanic slopes in the Andes at 1,200-2,000m. Washed process, medium roast. Notes of red apple, caramel and a clean, mild acidity.",
+    "brewSeconds": 180
+  },
+  {
+    "id": "brazil",
+    "title": "Brazil Santos",
+    "description": "Sourced from the Cerrado plateau's low-altitude farms. Natural (dry) processed, giving it a heavy body, low acidity and notes of roasted nuts and dark chocolate.",
+    "brewSeconds": 240
+  },
+  {
+    "id": "guatemala",
+    "title": "Guatemala",
+    "description": "Antigua Valley beans grown in mineral-rich volcanic soil at 1,500m+. Full-bodied with notes of cocoa, smoke and a subtle spice on the finish.",
+    "brewSeconds": 210
+  },
+  {
+    "id": "ethiopia",
+    "title": "Ethiopia",
+    "description": "Considered the birthplace of coffee, from the Yirgacheffe and Sidamo highlands. Heirloom varietals, light roast. Floral, citrusy, and often compared to fine wine.",
+    "brewSeconds": 150
+  },
+  {
+    "id": "kenya",
+    "title": "Kenya",
+    "description": "High-altitude beans (1,700m+) from the slopes near Mount Kenya. Double-fermented washed process yields a bright, wine-like acidity with blackcurrant and berry notes.",
+    "brewSeconds": 200
+  }
+]

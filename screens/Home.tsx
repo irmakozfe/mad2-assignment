@@ -1,27 +1,30 @@
-import { useRouter } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useRef, useState } from "react";
 import {
-  Animated,
-  Dimensions,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
+    Animated,
+    Dimensions,
+    Platform,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    View,
 } from "react-native";
 import { Button } from "react-native-paper";
-import MainCard from "../../components/MainCard";
+import { RootStackParamList } from "../App";
+import MainCard from "../components/MainCard";
+import countriesData from "../data/countries.json";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_WIDTH = SCREEN_WIDTH * 0.68;
 const CARD_SPACING = 10;
 
 const IMAGES = {
-  colombia: require("../../assets/colombia.png"),
-  brazil: require("../../assets/brazil.png"),
-  guatemala: require("../../assets/guatemala.png"),
-  ethiopia: require("../../assets/ethiopia.png"),
-  kenya: require("../../assets/kenya.png"),
+  colombia: require("../assets/colombia.png"),
+  brazil: require("../assets/brazil.png"),
+  guatemala: require("../assets/guatemala.png"),
+  ethiopia: require("../assets/ethiopia.png"),
+  kenya: require("../assets/kenya.png"),
 } as const;
 
 type CountryKey = keyof typeof IMAGES;
@@ -33,57 +36,20 @@ type CoffeeModule = {
   brewSeconds: number;
 };
 
-const MODULES: CoffeeModule[] = [
-  {
-    id: "colombia",
-    title: "Colombia",
-    description:
-      "Grown on volcanic slopes in the Andes at 1,200-2,000m. Washed process, medium roast. Notes of red apple, caramel and a clean, mild acidity.",
-    brewSeconds: 180,
-  },
-  {
-    id: "brazil",
-    title: "Brazil Santos",
-    description:
-      "Sourced from the Cerrado plateau's low-altitude farms. Natural (dry) processed, giving it a heavy body, low acidity and notes of roasted nuts and dark chocolate.",
-    brewSeconds: 240,
-  },
-  {
-    id: "guatemala",
-    title: "Guatemala",
-    description:
-      "Antigua Valley beans grown in mineral-rich volcanic soil at 1,500m+. Full-bodied with notes of cocoa, smoke and a subtle spice on the finish.",
-    brewSeconds: 210,
-  },
-  {
-    id: "ethiopia",
-    title: "Ethiopia",
-    description:
-      "Considered the birthplace of coffee, from the Yirgacheffe and Sidamo highlands. Heirloom varietals, light roast. Floral, citrusy, and often compared to fine wine.",
-    brewSeconds: 150,
-  },
-  {
-    id: "kenya",
-    title: "Kenya",
-    description:
-      "High-altitude beans (1,700m+) from the slopes near Mount Kenya. Double-fermented washed process yields a bright, wine-like acidity with blackcurrant and berry notes.",
-    brewSeconds: 200,
-  },
-];
+const MODULES = countriesData as CoffeeModule[];
 
-export default function Index() {
+type NavProp = NativeStackNavigationProp<RootStackParamList, "Home">;
+
+export default function Home() {
   const scrollX = useRef(new Animated.Value(0)).current;
-  const router = useRouter();
+  const navigation = useNavigation<NavProp>();
   const [selectedId, setSelectedId] = useState<CountryKey>("colombia");
   const selectedCoffee = MODULES.find((m) => m.id === selectedId)!;
 
   const handleBrew = () => {
-    router.push({
-      pathname: "/timer",
-      params: {
-        title: selectedCoffee.title,
-        seconds: String(selectedCoffee.brewSeconds),
-      },
+    navigation.navigate("Timer", {
+      title: selectedCoffee.title,
+      seconds: String(selectedCoffee.brewSeconds),
     });
   };
 
@@ -174,10 +140,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: -10,
   },
-  list: {
-    marginTop: 70,
-    flexGrow: 0,
-  },
+  list: { marginTop: 70, flexGrow: 0 },
   footer: {
     color: "#F0E7D5",
     fontSize: 13,
@@ -185,9 +148,5 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     opacity: 0.7,
   },
-  brewButton: {
-    marginTop: 16,
-    marginBottom: 40,
-    borderRadius: 100,
-  },
+  brewButton: { marginTop: 16, marginBottom: 40, borderRadius: 100 },
 });

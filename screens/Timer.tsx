@@ -1,8 +1,9 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Button, ProgressBar } from "react-native-paper";
-import InfoItem from "../../components/InfoItem";
+import { RootStackParamList } from "../App";
+import InfoItem from "../components/InfoItem";
 
 function formatTime(totalSeconds: number) {
   const minutes = Math.floor(totalSeconds / 60);
@@ -10,12 +11,11 @@ function formatTime(totalSeconds: number) {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
+type TimerRouteProp = RouteProp<RootStackParamList, "Timer">;
+
 export default function Timer() {
-  const router = useRouter();
-  const { title, seconds } = useLocalSearchParams<{
-    title: string;
-    seconds: string;
-  }>();
+  const navigation = useNavigation();
+  const { title, seconds } = useRoute<TimerRouteProp>().params;
 
   const brewSeconds = Number(seconds) || 180;
   const [timeLeft, setTimeLeft] = useState(brewSeconds);
@@ -23,11 +23,7 @@ export default function Timer() {
 
   useEffect(() => {
     if (!isRunning || timeLeft <= 0) return;
-
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
-
+    const interval = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
     return () => clearInterval(interval);
   }, [isRunning, timeLeft]);
 
@@ -39,19 +35,16 @@ export default function Timer() {
       <Text style={styles.header}>
         {isDone ? "Coffee is ready!" : "Brewing..."}
       </Text>
-
       <InfoItem label="Coffee" value={title ?? "Your coffee"} />
       <InfoItem
         label="Time left"
         value={isDone ? "0:00" : formatTime(timeLeft)}
       />
-
       <ProgressBar
         progress={progress}
         color="#B6CFE4"
         style={styles.progressBar}
       />
-
       <View style={styles.buttonRow}>
         {!isDone && (
           <Button
@@ -66,7 +59,7 @@ export default function Timer() {
         <Button
           mode="outlined"
           textColor="#F0E7D5"
-          onPress={() => router.back()}
+          onPress={() => navigation.goBack()}
         >
           Back
         </Button>
@@ -98,9 +91,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 30,
   },
-  buttonRow: {
-    flexDirection: "row",
-    marginTop: 10,
-    gap: 12,
-  },
+  buttonRow: { flexDirection: "row", marginTop: 10, gap: 12 },
 });
