@@ -7,6 +7,7 @@ import {
     Text,
     View,
 } from "react-native";
+import { Divider } from "react-native-paper";
 import { RootStackParamList } from "../App";
 import brewDetailsData from "../data/brewDetails.json";
 import countriesData from "../data/countries.json";
@@ -42,26 +43,38 @@ export default function Details() {
           <Text style={styles.rowLabel}>Roast level</Text>
           <Text style={styles.rowValue}>{brew.roastLevel}</Text>
         </View>
+        <Divider style={styles.divider} />
+
         <View style={styles.row}>
           <Text style={styles.rowLabel}>Process</Text>
           <Text style={styles.rowValue}>{brew.process}</Text>
         </View>
+        <Divider style={styles.divider} />
+
         <View style={styles.row}>
           <Text style={styles.rowLabel}>Altitude</Text>
           <Text style={styles.rowValue}>{brew.altitude}</Text>
         </View>
+        <Divider style={styles.divider} />
+
         <View style={styles.row}>
           <Text style={styles.rowLabel}>Recommended grind</Text>
           <Text style={styles.rowValue}>{brew.recommendedGrind}</Text>
         </View>
+        <Divider style={styles.divider} />
+
         <View style={styles.row}>
           <Text style={styles.rowLabel}>Water temperature</Text>
           <Text style={styles.rowValue}>{brew.waterTempC}°C</Text>
         </View>
+        <Divider style={styles.divider} />
+
         <View style={styles.row}>
           <Text style={styles.rowLabel}>Coffee : water ratio</Text>
           <Text style={styles.rowValue}>{brew.ratio}</Text>
         </View>
+        <Divider style={styles.divider} />
+
         <View style={styles.row}>
           <Text style={styles.rowLabel}>Flavor notes</Text>
           <Text style={styles.rowValue}>{brew.flavorNotes.join(", ")}</Text>
@@ -93,8 +106,6 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#F0E7D5",
     paddingVertical: 10,
   },
   rowLabel: { color: "#F0E7D5", opacity: 0.7, fontSize: 13 },
@@ -104,5 +115,10 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     maxWidth: "60%",
     textAlign: "right",
+  },
+  divider: {
+    width: "100%",
+    backgroundColor: "#F0E7D5",
+    opacity: 0.25,
   },
 });
