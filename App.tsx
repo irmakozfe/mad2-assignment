@@ -26,7 +26,7 @@ export default function App() {
               component={Timer}
               options={{
                 headerShown: true,
-                title: "",
+                title: "Back to Home",
                 headerStyle: {
                   backgroundColor: "#422D28",
                   elevation: 0,
@@ -41,7 +41,7 @@ export default function App() {
               component={Login}
               options={{
                 headerShown: true,
-                title: "Sign in",
+                title: "Back to Home",
                 headerStyle: {
                   backgroundColor: "#422D28",
                   elevation: 0,
