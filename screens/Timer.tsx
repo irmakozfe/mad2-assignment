@@ -1,4 +1,4 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Button, ProgressBar } from "react-native-paper";
@@ -14,7 +14,6 @@ function formatTime(totalSeconds: number) {
 type TimerRouteProp = RouteProp<RootStackParamList, "Timer">;
 
 export default function Timer() {
-  const navigation = useNavigation();
   const { title, seconds } = useRoute<TimerRouteProp>().params;
 
   const brewSeconds = Number(seconds) || 180;
@@ -74,15 +73,18 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontStyle: "italic",
     textAlign: "center",
-    marginBottom: 50,
-    marginTop: -80,
+    marginBottom: 30,
+    marginTop: -130,
   },
   progressBar: {
     width: "80%",
     height: 10,
-    flex: 0.05,
     borderRadius: 10,
     marginVertical: 30,
   },
-  buttonRow: { flexDirection: "row", marginTop: 10, gap: 12 },
+  buttonRow: {
+    flexDirection: "row",
+    marginTop: -20,
+    gap: 12,
+  },
 });

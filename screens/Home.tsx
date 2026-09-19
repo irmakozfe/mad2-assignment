@@ -2,15 +2,15 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useRef, useState } from "react";
 import {
-    Animated,
-    Dimensions,
-    Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View,
+  Animated,
+  Dimensions,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Appbar, Button } from "react-native-paper";
 import { RootStackParamList } from "../App";
 import MainCard from "../components/MainCard";
 import countriesData from "../data/countries.json";
@@ -55,6 +55,15 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Appbar.Header style={styles.appbar} elevated={false}>
+        <Appbar.Content title="" />
+        <Appbar.Action
+          icon="account-circle"
+          color="#F0E7D5"
+          onPress={() => navigation.navigate("Login")}
+        />
+      </Appbar.Header>
+
       <Text style={styles.header}>Welcome to your local brewery.</Text>
       <Text style={styles.secondaryheader}>
         Choose your favourite coffee bean and brew it already!{" "}
@@ -120,7 +129,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#422D28",
     flex: 1,
     alignItems: "center",
-    paddingTop: 24,
+  },
+  appbar: {
+    backgroundColor: "#422D28",
+    width: "100%",
   },
   header: {
     color: "#F0E7D5",
@@ -129,7 +141,6 @@ const styles = StyleSheet.create({
     fontFamily: Platform.select({ ios: "Helvetica", android: "sans-serif" }),
     textAlign: "center",
     paddingHorizontal: 16,
-    marginTop: 40,
   },
   secondaryheader: {
     color: "#F0E7D5",
@@ -140,7 +151,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: -10,
   },
-  list: { marginTop: 70, flexGrow: 0 },
+  list: {
+    marginTop: 70,
+    flexGrow: 0,
+  },
   footer: {
     color: "#F0E7D5",
     fontSize: 13,
@@ -148,5 +162,9 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     opacity: 0.7,
   },
-  brewButton: { marginTop: 16, marginBottom: 40, borderRadius: 100 },
+  brewButton: {
+    marginTop: 16,
+    marginBottom: 65,
+    borderRadius: 100,
+  },
 });
