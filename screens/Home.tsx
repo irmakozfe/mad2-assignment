@@ -111,15 +111,27 @@ export default function Home() {
         }}
       />
       <Text style={styles.footer}>Freshly roasted, just for you!</Text>
-      <Button
-        mode="contained"
-        onPress={handleBrew}
-        buttonColor="#B6CFE4"
-        textColor="#422D28"
-        style={styles.brewButton}
-      >
-        Brew {selectedCoffee.title}
-      </Button>
+      <View style={styles.buttonRow}>
+        <Button
+          mode="contained"
+          onPress={handleBrew}
+          buttonColor="#B6CFE4"
+          textColor="#422D28"
+          style={styles.brewButton}
+        >
+          Brew {selectedCoffee.title}
+        </Button>
+        <Button
+          mode="outlined"
+          onPress={() =>
+            navigation.navigate("Details", { id: selectedCoffee.id })
+          }
+          textColor="#F0E7D5"
+          style={styles.detailsButton}
+        >
+          Details
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }
@@ -162,9 +174,17 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     opacity: 0.7,
   },
-  brewButton: {
+  buttonRow: {
+    flexDirection: "row",
+    gap: 12,
     marginTop: 16,
     marginBottom: 65,
+  },
+  brewButton: {
     borderRadius: 100,
+  },
+  detailsButton: {
+    borderRadius: 100,
+    borderColor: "#F0E7D5",
   },
 });
